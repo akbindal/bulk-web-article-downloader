@@ -32,14 +32,14 @@ public class ArticleDownloadReducer extends Reducer<Text, Text, NullWritable, Te
 		 try {
 			 NewsExtractor ext = new NewsExtractor();
 			 NewsArticle article = ext.content(url);
-			 Set<String> tweetids = article.tweets;
+			 Set<String> tweetids = article.tweets; //empty tweets
 			 for(Text id:values) {
 				 tweetids.add(id.toString());
 			 }
 			 ObjectWriter ow = new ObjectMapper().writer();
 			 String json = ow.writeValueAsString(article);
 			 context.write(NullWritable.get(), new Text(json));
-			 if (article.title!=null) 
+			 if (!article.title.isEmpty()) 
 				 context.getCounter(URL_COUNTER.RESOLVED_URL).increment(1);
 			 else
 				 context.getCounter(URL_COUNTER.UNRESOLVED_URL).increment(1);
@@ -47,7 +47,7 @@ public class ArticleDownloadReducer extends Reducer<Text, Text, NullWritable, Te
 			 System.err.println(e);
 			 context.getCounter(URL_COUNTER.UNRESOLVED_URL).increment(1);
 		 }
-		 System.out.println("done");
+		 //System.out.println("done");
 		 //Reduce task gets killed if it doesn't output or report anythin for 10 minutes(changed to 30min) 
 		 context.setStatus("working");
 		 context.progress();

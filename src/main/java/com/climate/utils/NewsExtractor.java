@@ -52,8 +52,8 @@ public class NewsExtractor {
 			content = content.replace("\n", "").replace("\r", "");
 	
 		} catch (Exception e) {
-			content = null;
-			title = null;
+			content = "";
+			title = "";
 		}
 		
 		NewsArticle article = new NewsArticle(title, content, strurl, expanded_url);
@@ -91,7 +91,7 @@ public class NewsExtractor {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch bloc
-			return null;
+			return "";
 		}
 	}
 	
